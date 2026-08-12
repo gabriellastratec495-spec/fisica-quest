@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Física Quest</title>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Física Quest</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+</head>
+<body>
+
+    <!-- LOGIN -->
+
+<div id="login" class="screen active">
+
+    <div class="card">
+
+        <div class="titleLogo">
+
+    <span class="logoEmoji">⚛</span>
+
+    <h1>Física Quest</h1>
+
+</div>
+
+        <h2>Ingresa tu nombre</h2>
+
+        <input
+        id="playerNameInput"
+        type="text"
+        placeholder="Tu nombre">
+
+        <br><br>
+
+        <button onclick="savePlayerName()">
+            🚀 Comenzar
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MENU -->
+
+<div id="menu" class="screen">
+
+<div class="menuContainer">
+
+    <div class="card">
+
+        <h2>🏆 Clasificación</h2>
+
+        <div id="leaderboard">
+            No hay puntajes todavía
+        </div>
+
+        <br>
+
+        <button onclick="resetLeaderboard()">
+            🗑 Reiniciar tabla
+        </button>
+
+        <br><br>
+
+<button onclick="changePlayerName()">
+    👤 Cambiar nombre
+</button>
+<br><br>
+
+<div style="display:flex; justify-content:center;">
+
+<button onclick="openShop()">
+🛒 Tienda
+</button>
+
+</div>
+
+    </div>
+
+    <div>
+
+        <div class="titleLogo">
+
+    <span class="logoEmoji">⚛</span>
+
+    <h1>Física Quest</h1>
+
+</div>
+
+        <h2>La aventura de la Física</h2>
+
+    <button onclick="startMRU()">
+🚗 Iniciar Modo MRU
+</button>
+
+<br><br>
+
+<button onclick="startMRUV()">
+🏎 Iniciar Modo MRUV
+</button>
+
+<br><br>
+
+<button onclick="startCaidaLibre()">
+🍎 Iniciar Caída Libre
+</button>
+
+<br><br>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- JUEGO -->
+
+<div id="game" class="screen">
+
+    <div class="card">
+
+        <div class="stats">
+    <div>⭐ Puntaje: <span id="score">0</span></div>
+    <div>❤️ Vidas: <span id="lives">3</span></div>
+    <div>🪙 Monedas: <span id="gameCoins">0</span></div>
+</div>
+
+        <h2 id="modeTitle">Movimiento Rectilíneo Uniforme (MRU)</h2>
+        <p id="formulaDisplay"></p>
+        <p id="question"></p>
+
+        <br>
+
+        <input
+        id="answer"
+        type="number"
+        placeholder="Tu respuesta">
+
+        <br><br>
+
+        <button onclick="checkAnswer()">
+            Responder
+        </button>
+
+        <br><br>
+
+<button onclick="goToMenu()">
+    🏠 Volver al menú
+</button>
+
+        <p id="message"></p>
+
+    </div>
+
+</div>
+
+<!-- TIENDA -->
+
+<div id="shop" class="screen">
+
+<div class="card">
+
+<h1>🛒 Tienda</h1>
+
+<div class="shopCoins">
+🪙 Monedas:
+<span id="coins">0</span>
+</div>
+
+<div class="shopItem">
+
+<h3>❤️ Vida Extra</h3>
+
+<p class="shopPrice">
+Costo: 100 monedas
+</p>
+
+<button onclick="buyLife()">
+Comprar
+</button>
+
+</div>
+
+<br>
+
+<button onclick="showScreen('menu')">
+⬅ Volver
+</button>
+
+</div>
+
+</div>
+
+<!-- GAME OVER -->
+
+<div id="gameover" class="screen">
+
+    <h1>💀 Fin del juego</h1>
+
+    <h2>Puntaje final: <span id="finalScore"></span></h2>
+
+    <button onclick="buyLifeAfterGameOver()">
+        ❤️ Comprar 1 vida — 100 🪙
+    </button>
+
+    <br><br>
+
+    <button onclick="finishGame()">
+    🏠 Volver al menú
+</button>
+
+</div>
+
+<script>
+
+let score = 0;
+let lives = 3;
+let correctAnswer = 0;
+let gameMode = "MRU";
+let playerName = "";
+let coins = 0;
+
+function savePlayerName(){
+
+    let input =
+    document.getElementById("playerNameInput");
+
+    if(input.value.trim() === ""){
+
+        alert("Ingresa un nombre");
+
+        return;
+    }
+
+    playerName = input.value.trim();
+
+    loadLeaderboard();
+
+    showScreen("menu");
+
+}
+
+function loadLeaderboard(){
+
+    let leaderboard =
+    JSON.parse(
+        localStorage.getItem("leaderboard")
+    ) || [];
+
+    let html = "";
+
+    if(leaderboard.length === 0){
+
+        html = "No hay puntajes todavía";
+
+    }else{
+
+        leaderboard.forEach((player,index)=>{
+
+            html +=
+            `${index+1}. ${player.name} - ${player.score} pts<br>`;
+
+        });
+
+    }
+
+    document.getElementById("leaderboard")
+    .innerHTML = html;
+
+}
+
+function resetLeaderboard(){
+
+    if(confirm("¿Seguro que quieres borrar la clasificación?")){
+
+        localStorage.removeItem("leaderboard");
+
+        loadLeaderboard();
+
+    }
+
+}
+
+function goToMenu(){
+
+    loadLeaderboard();
+
+    showScreen("menu");
+
+}
+
+function goToMenu(){
+
+    loadLeaderboard();
+
+    showScreen("menu");
+
+}
+
+// PEGAR AQUÍ
+function openShop(){
+
+    document.getElementById("coins").innerText = coins;
+
+    showScreen("shop");
+
+}
+
+function openShop(){
+
+    document.getElementById("coins").innerText = coins;
+
+    showScreen("shop");
+
+}
+
+// PEGAR AQUÍ
+function buyLife(){
+
+    if(lives >= 3){
+
+        alert("❤️ Ya tienes el máximo de 3 vidas.");
+
+        return;
+    }
+
+    if(coins >= 100){
+
+        coins -= 100;
+
+        lives++;
+
+        document.getElementById("coins").innerText = coins;
+        document.getElementById("lives").innerText = lives;
+        document.getElementById("gameCoins").innerText = coins;
+
+        alert("❤️ Compraste una vida.");
+
+    }else{
+
+        alert("❌ No tienes suficientes monedas.");
+
+    }
+
+}
+
+function buyLifeAfterGameOver(){
+
+    if(coins >= 100){
+
+        coins -= 100;
+
+        lives++;
+
+        document.getElementById("lives").innerText = lives;
+        document.getElementById("gameCoins").innerText = coins;
+
+        showScreen("game");
+
+        if(gameMode === "MRUV"){
+
+            generateMRUVQuestion();
+
+        }
+        else if(gameMode === "CAIDA"){
+
+            generateCaidaLibreQuestion();
+
+        }
+        else{
+
+            generateQuestion();
+
+        }
+
+    }else{
+
+        alert("❌ No tienes suficientes monedas.");
+
+    }
+
+}
+
+
+function changePlayerName(){
+
+    document.getElementById("playerNameInput").value = playerName;
+
+    showScreen("login");
+
+    document.getElementById("playerNameInput").focus();
+
+}
+
+function showScreen(id){
+
+    document
+    .querySelectorAll(".screen")
+    .forEach(screen =>
+        screen.classList.remove("active"));
+
+    document
+    .getElementById(id)
+    .classList.add("active");
+}
+
+function startMRU(){
+
+    score = 0;
+    lives = 3;
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("lives").innerText = lives;
+
+    gameMode = "MRU";
+
+    document.getElementById("modeTitle")
+    .innerText =
+    "Movimiento Rectilíneo Uniforme (MRU)";
+
+    document.getElementById("formulaDisplay")
+.innerHTML =
+"📘 Fórmulas MRU<br><br>" +
+"d = v × t<br>" +
+"v = d ÷ t<br>" +
+"t = d ÷ v";
+
+    showScreen("game");
+
+    generateQuestion();
+}
+
+function generateQuestion(){
+
+document.getElementById("message").innerHTML = "";
+document.getElementById("message").className = "";
+
+    let tipoPregunta =
+        Math.floor(Math.random()*3);
+
+    let objetos = [
+        "un auto",
+        "un tren",
+        "un camión",
+        "una bicicleta",
+        "una moto",
+        "un caballo",
+        "un avión"
+    ];
+
+    let objeto =
+        objetos[Math.floor(Math.random()*objetos.length)];
+
+    let velocidad =
+        Math.floor(Math.random()*90)+10;
+
+    let tiempo =
+        Math.floor(Math.random()*9)+1;
+
+    let distancia =
+        velocidad * tiempo;
+
+    if(tipoPregunta === 0){
+
+        correctAnswer = distancia;
+
+        document.getElementById("question")
+        .innerHTML =
+        `${objeto} viaja a
+        <b>${velocidad} km/h</b>
+        durante
+        <b>${tiempo} horas</b>.
+        <br><br>
+        ¿Qué distancia recorre?`;
+
+    }
+
+    else if(tipoPregunta === 1){
+
+        correctAnswer = velocidad;
+
+        document.getElementById("question")
+        .innerHTML =
+        `${objeto} recorre
+        <b>${distancia} km</b>
+        en
+        <b>${tiempo} horas</b>.
+        <br><br>
+        ¿Cuál es su velocidad?`;
+
+    }
+
+    else{
+
+        correctAnswer = tiempo;
+
+        document.getElementById("question")
+        .innerHTML =
+        `${objeto} viaja a
+        <b>${velocidad} km/h</b>
+        y recorre
+        <b>${distancia} km</b>.
+        <br><br>
+        ¿Cuánto tiempo tardó?`;
+
+    }
+
+    document.getElementById("answer").value = "";
+
+    document.getElementById("answer").focus();
+
+}
+
+function checkAnswer(){
+
+    let answer =
+    Number(document.getElementById("answer").value);
+
+    let message =
+    document.getElementById("message");
+
+    if(answer === correctAnswer){
+
+        score += 100;
+        coins += 100;
+
+        document.getElementById("gameCoins").innerText = coins;
+
+        message.innerHTML =
+        "✅ ¡Correcto!";
+
+        message.className =
+        "correct";
+
+    }
+    else{
+
+        lives--;
+
+        message.innerHTML =
+        `❌ Incorrecto. Era ${correctAnswer}`;
+
+        message.className =
+        "wrong";
+
+    }
+
+    document.getElementById("score")
+    .innerText = score;
+
+    document.getElementById("lives")
+    .innerText = lives;
+
+
+    if(lives <= 0){
+
+        document.getElementById("finalScore")
+        .innerText = score;
+
+        setTimeout(() => {
+
+            showScreen("gameover");
+
+        },1000);
+
+        return;
+    }
+
+
+    setTimeout(() => {
+
+        if(gameMode === "MRUV"){
+
+            generateMRUVQuestion();
+
+        }
+        else if(gameMode === "CAIDA"){
+
+            generateCaidaLibreQuestion();
+
+        }
+        else{
+
+            generateQuestion();
+
+        }
+
+    },1500);
+
+}
+
+document.addEventListener("keydown",e=>{
+
+    if(e.key==="Enter" &&
+       document.getElementById("game")
+       .classList.contains("active")){
+
+        checkAnswer();
+
+    }
+
+});
+
+function saveFinalScore(){
+
+    let leaderboard =
+    JSON.parse(
+        localStorage.getItem("leaderboard")
+    ) || [];
+
+    leaderboard.push({
+        name: playerName,
+        score: score
+    });
+
+    leaderboard.sort(
+        (a,b) => b.score - a.score
+    );
+
+    leaderboard =
+    leaderboard.slice(0,10);
+
+    localStorage.setItem(
+        "leaderboard",
+        JSON.stringify(leaderboard)
+    );
+
+}
+
+function finishGame(){
+
+    saveFinalScore();
+
+    showScreen("menu");
+
+    loadLeaderboard();
+
+}
+
+function restart(){
+
+    saveFinalScore();
+
+    score = 0;
+    lives = 3;
+
+    document.getElementById("score")
+    .innerText = score;
+
+    document.getElementById("lives")
+    .innerText = lives;
+
+    document.getElementById("gameCoins")
+    .innerText = coins;
+
+    document.getElementById("message")
+    .innerHTML = "";
+
+    if(gameMode === "MRUV"){
+
+        startMRUV();
+
+    }
+    else if(gameMode === "CAIDA"){
+
+        startCaidaLibre();
+
+    }
+    else{
+
+        startMRU();
+
+    }
+
+}
+
+function startMRUV(){
+
+    score = 0;
+    lives = 3;
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("lives").innerText = lives;
+
+    gameMode = "MRUV";
+
+    document.getElementById("modeTitle")
+    .innerText =
+    "Movimiento Rectilíneo Uniformemente Variado (MRUV)";
+
+    document.getElementById("formulaDisplay")
+.innerHTML =
+"📘 Fórmula: Vf = Vi + a × t";
+
+    showScreen("game");
+
+    generateMRUVQuestion();
+
+}
+
+function generateMRUVQuestion(){
+
+    document.getElementById("message").innerHTML = "";
+document.getElementById("message").className = "";
+
+    let velocidadInicial =
+        Math.floor(Math.random()*20);
+
+    let aceleracion =
+        Math.floor(Math.random()*5)+1;
+
+    let tiempo =
+        Math.floor(Math.random()*10)+1;
+
+    correctAnswer =
+        velocidadInicial +
+        aceleracion * tiempo;
+
+    document.getElementById("question")
+    .innerHTML =
+    `Un auto tiene una velocidad inicial de
+    <b>${velocidadInicial} m/s</b>,
+    acelera a
+    <b>${aceleracion} m/s²</b>
+    durante
+    <b>${tiempo} segundos</b>.
+    <br><br>
+    ¿Cuál es su velocidad final en m/s?`;
+
+    document.getElementById("answer").value = "";
+
+    document.getElementById("answer").focus();
+
+}
+
+function startCaidaLibre(){
+
+    score = 0;
+    lives = 3;
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("lives").innerText = lives;
+
+    gameMode = "CAIDA";
+
+    document.getElementById("modeTitle")
+    .innerText =
+    "Caída Libre";
+
+    document.getElementById("formulaDisplay")
+    .innerHTML =
+    "📘 Fórmulas: Vf = g × t | d = ½ × g × t²";
+
+    showScreen("game");
+
+    generateCaidaLibreQuestion();
+
+}
+
+function generateCaidaLibreQuestion(){
+
+document.getElementById("message").innerHTML = "";
+document.getElementById("message").className = "";    
+
+    let tiempo =
+        Math.floor(Math.random()*10)+1;
+
+    let tipoPregunta =
+        Math.floor(Math.random()*2);
+
+    let gravedad = 10;
+
+    if(tipoPregunta === 0){
+
+        correctAnswer =
+            gravedad * tiempo;
+
+        document.getElementById("question")
+        .innerHTML =
+        `Un objeto cae durante
+        <b>${tiempo} segundos</b>.
+        <br><br>
+        ¿Cuál es su velocidad final en m/s?`;
+
+    }
+    else{
+
+        correctAnswer =
+            0.5 * gravedad * tiempo * tiempo;
+
+        document.getElementById("question")
+        .innerHTML =
+        `Un objeto cae durante
+        <b>${tiempo} segundos</b>.
+        <br><br>
+        ¿Qué distancia recorrió en metros?`;
+
+    }
+
+    document.getElementById("answer").value = "";
+
+    document.getElementById("answer").focus();
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,389 @@
+/*========================================
+            FÍSICA QUEST
+              ESTILOS
+========================================*/
+
+html,
+body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100vh;
+
+    font-family:'Segoe UI',sans-serif;
+
+    background:
+    linear-gradient(
+    180deg,
+    #08110d,
+    #0c1813,
+    #102019,
+    #142920,
+    #08110d);
+
+    color:#d7f5e6;
+}
+
+.screen{
+    display:none;
+    min-height:100vh;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+}
+
+.active{
+    display:flex;
+}
+
+.card{
+
+    background:rgba(16,32,25,.92);
+
+    border:1px solid rgba(90,201,143,.15);
+
+    border-radius:25px;
+
+    padding:30px;
+
+    box-shadow:
+    0 0 40px rgba(0,0,0,.4),
+    0 0 15px rgba(90,201,143,.08);
+}
+
+h1{
+
+    font-size:72px;
+
+    background:
+    linear-gradient(
+    90deg,
+    #d7f5e6,
+    #8fd9b6);
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    text-shadow:
+    0 0 25px rgba(90,201,143,.2);
+}
+
+h2{
+
+    color:#9ff7bf;
+}
+
+.slogan{
+
+    color:#b9f5cf;
+
+    font-size:20px;
+
+    text-align:center;
+
+    max-width:600px;
+
+    margin-bottom:30px;
+}
+
+button{
+
+    background:
+    linear-gradient(
+    135deg,
+    #244c3c,
+    #183328);
+
+    color:#d7f5e6;
+
+    border:1px solid rgba(143,217,182,.2);
+
+    border-radius:15px;
+
+    padding:15px 35px;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+button:hover{
+
+    transform:translateY(-3px) scale(1.03);
+
+    background:
+    linear-gradient(
+    135deg,
+    #58d68d,
+    #3cb371);
+
+    box-shadow:
+    0 0 20px rgba(88,214,141,.4);
+}
+
+input{
+
+    width:80%;
+
+    background:#173328;
+
+    border:2px solid #3cb371;
+
+    color:white;
+
+    border-radius:15px;
+
+    padding:12px;
+
+    font-size:20px;
+
+    text-align:center;
+}
+
+input:focus{
+
+    outline:none;
+
+    box-shadow:
+    0 0 15px rgba(88,214,141,.5);
+}
+
+.stats{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:20px;
+
+    font-size:20px;
+}
+
+.correct{
+
+    color:#58d68d;
+
+    font-weight:bold;
+}
+
+.wrong{
+
+    color:#ff7b7b;
+
+    font-weight:bold;
+}
+
+#livesDisplay{
+
+    font-size:28px;
+}
+
+#formulaDisplay{
+
+    background:
+    rgba(88,214,141,.12);
+
+    border:
+    1px solid rgba(88,214,141,.3);
+
+    border-radius:12px;
+
+    padding:12px;
+
+    margin-bottom:15px;
+
+    font-size:20px;
+
+    font-weight:bold;
+
+    text-align:center;
+
+    color:#9ff7bf;
+}
+
+.menuContainer{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:40px;
+}
+
+/*========================================
+                TIENDA
+========================================*/
+
+.shopCoins{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:gold;
+
+    margin-bottom:20px;
+}
+
+.shopItem{
+
+    background:#173328;
+
+    border:2px solid #3cb371;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    margin:15px 0;
+
+    width:300px;
+
+    text-align:center;
+}
+
+.shopItem h3{
+
+    margin:0;
+}
+
+.shopPrice{
+
+    color:gold;
+
+    font-size:20px;
+
+    margin:10px 0;
+}
+
+
+/*========================================
+            CLASIFICACIÓN
+========================================*/
+
+#leaderboard{
+
+    margin:20px 0;
+
+    font-size:18px;
+
+    line-height:1.8;
+}
+
+
+/*========================================
+            RESPONSIVE
+========================================*/
+
+@media (max-width:900px){
+
+    .menuContainer{
+
+        flex-direction:column;
+
+        gap:25px;
+
+    }
+
+    h1{
+
+        font-size:48px;
+
+        text-align:center;
+    }
+
+    h2{
+
+        text-align:center;
+    }
+
+    .card{
+
+        width:90%;
+
+        max-width:500px;
+
+    }
+
+    button{
+
+        width:100%;
+    }
+
+    .shopItem{
+
+        width:auto;
+    }
+
+    .stats{
+
+        flex-direction:column;
+
+        gap:10px;
+
+        text-align:center;
+    }
+
+}
+
+/*========================================
+    CENTRAR BOTONES DEL PANEL IZQUIERDO
+========================================*/
+
+.menuContainer .card{
+    text-align:center;
+}
+
+.menuContainer .card button{
+    display:block;
+    width:220px;
+    margin:0 auto;
+}
+
+/*========================================
+            LOGO DEL TÍTULO
+========================================*/
+
+.titleLogo{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.logoEmoji{
+
+    font-size:72px;
+
+    filter:drop-shadow(0 0 15px rgba(88,214,141,.45));
+
+    animation:logoFloat 3s ease-in-out infinite;
+
+}
+
+@keyframes logoFloat{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-5px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+
+}
